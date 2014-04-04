@@ -23,10 +23,10 @@
   for(var i = 0; i < container.children.length; i++) {
     cell = container.children[i];
     classes = cell.classList;
-    value = intParse(classes[1].split('-')[1]);
+    value = parseInt(classes[1].split('-')[1]);
     position = classes[2].split('-');
-    x = position[2];
-    y = position[3];
+    x = parseInt(position[2]);
+    y = parseInt(position[3]);
     grid.setCell(x,y,value);
   }
   console.log(grid);
