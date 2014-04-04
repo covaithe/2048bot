@@ -3,10 +3,10 @@
     this.cells = new Array(16);
 
     this.getCell = function(x,y) {
-      return cells[ cellIndex(x,y) ];
+      return this.cells[ cellIndex(x,y) ];
     };
     this.setCell = function(x,y,value) {
-      cells[ cellIndex(x,y) ] = value;
+      this.cells[ cellIndex(x,y) ] = value;
     };
 
     function cellIndex(x,y) {
