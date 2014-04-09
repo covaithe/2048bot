@@ -50,9 +50,6 @@
     return grid;
   }
 
-  var grid = readGrid();
-  console.log(grid.print());
-
   var keycodes =  {
     left: 37,
     up:   38,
@@ -60,29 +57,44 @@
     down: 40
   };
 
+  var body = undefined;
   function sendKeypress(code) {
-    var keyboardEvent = document.createEvent("KeyboardEvent");
-    var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
-
-
-    keyboardEvent[initMethod](
-        "keypress", // event type : keydown, keyup, keypress
-        true, // bubbles
-        true, // cancelable
-        window, // viewArg: should be window
-        false, // ctrlKeyArg
-        false, // altKeyArg
-        false, // shiftKeyArg
-        false, // metaKeyArg
-        code, // keyCodeArg : unsigned long the virtual key code, else 0
-        0 // charCodeArgs : unsigned long the Unicode character associated with the depressed key, else 0
-        );
-    document.dispatchEvent(keyboardEvent);
+    console.log("sending code " + code);
+    if (body === undefined) {
+      body = $('body');
+    }
+    var e = $.Event("keydown");
+    e.which = code;
+    console.log(e);
+    body.trigger(e);
   }
 
-  sendKeypress(keycodes.up);
-  console.log(readGrid().print());
-  sendKeypress(keycodes.up);
-  console.log(readGrid().print());
+	var v = "1.3.2";
+
+	// check prior inclusion and version
+	if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
+		var done = false;
+		var script = document.createElement("script");
+		script.src = "http://ajax.googleapis.com/ajax/libs/jquery/" + v + "/jquery.min.js";
+		script.onload = script.onreadystatechange = function(){
+			if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
+				done = true;
+				initializeJunk();
+			}
+		};
+		document.getElementsByTagName("head")[0].appendChild(script);
+	} else {
+		initializeJunk();
+	}
+	
+
+  function initializeJunk() {
+    console.log('hi');
+    console.log(readGrid().print());
+    sendKeypress(keycodes.up);
+    console.log(readGrid().print());
+    sendKeypress(keycodes.up);
+    console.log(readGrid().print());
+  }
 
 })();
